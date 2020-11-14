@@ -30,7 +30,7 @@ void search_book(struct Book* book,int c) {
 	scanf("%d", &n);
 
 	for (int i = 0; i < c; i++) {
-		if (n== book[i].num) {
+		if (n== &book[i].num) {
 			printf("%s %s %n %n\n", &book[i].title, &book[i].author, &book[i].num, &book[i].rental);
 			return;
 		}
