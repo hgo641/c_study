@@ -11,32 +11,71 @@
 	학생 정보 업데이트
 */
 
-
+void search_print() {
+	printf("----------------------\n");
+	printf("1. 책 제목으로 검색\n");
+	printf("2. 저자로 검색\n");
+	printf("3. 책 번호로 검색\n");
+	printf("숫자를 입력해주세요\n");
+};
 void search_book(struct Book* book,int c) {
-	/*printf("책 제목을 입력하세요 : ");
-	char s_title[20];
-	scanf("%s", &s_title);
-	
-	for (int i = 0;i<c; i++) {
-		if (s_title==book[i].title) {
-			printf("%s %s %n %n\n", &book[i].title, &book[i].author, &book[i].num, &book[i].rental);
-			return;
-		}
-	}
-	printf("존재하지않습니다");
-	*/
-	printf("책 번호를 입력하세요 : ");
-	int n;
-	scanf("%d", &n);
+	search_print();
+	int cmd_s;
+	scanf("%d",&cmd_s);
+	switch (cmd_s){
+	case 1:
+		printf("책 제목을 입력하세요 : ");
+		char s_title[20];
+		scanf("%s", &s_title);
+		
 
-	for (int i = 0; i < c; i++) {
-		if (n== &book[i].num) {
-			printf("%s %s %n %n\n", &book[i].title, &book[i].author, &book[i].num, &book[i].rental);
-			return;
+		for (int i = 0; i < c; i++) {
+			int a = strcmp(s_title, book[i].title);
+			if (a==0) {
+				printf("검색하신 도서입니다\n");
+				printf(" 제목 : %s\n 작가 : %s\n 책번호 : %d\n 대여 여부 : %c\n", book[i].title, book[i].author, book[i].num, book[i].rental);
+				return;
+			}
 		}
+		printf("존재하지않습니다");
+		break;
+	case 2:
+		printf("저자를 입력하세요 : ");
+		char s_author[10];
+		scanf("%s", &s_author);
+		
+		for (int i = 0; i < c; i++) {
+			int a = strcmp(s_author, book[i].author);
+			if (a==0) {
+				printf("검색하신 도서입니다\n");
+				printf("제목 : %s\n 작가 : %s\n 책번호 : %d\n 대여 여부 : %c\n", book[i].title, book[i].author, book[i].num, book[i].rental);
+
+				return;
+			}
+		}
+		printf("존재하지않습니다");
+		break;
+	case 3:
+		printf("책 번호를 입력하세요 : ");
+		int n;
+		scanf("%d", &n);
+
+		for (int i = 0; i < c; i++) {
+			if (n == book[i].num) {
+				printf("검색하신 도서입니다\n");
+				printf("제목 : %s\n 작가 : %s\n 책번호 : %d\n 대여 여부 : %c\n", book[i].title, book[i].author, book[i].num, book[i].rental);
+
+				return;
+			}
+		}
+		printf("존재하지않습니다");
+		break;
+	default:
+		printf("잘못된 입력입니다\n");
+		break;
 	}
-	printf("존재하지않습니다");
 	return;
+	
 };
 void insert_book(struct Book* book, int c) {
 	printf("책 제목: ");
@@ -45,13 +84,13 @@ void insert_book(struct Book* book, int c) {
 	scanf("%s", &book[c].author);
 	printf("책 번호: ");
 	scanf("%d", &book[c].num);
-	printf("입력되었습니다. %s %s %d\n", &book[c].title, &book[c].author, book[c].num);
+	book[c].rental = 'X';
 
 	/*
 	int num;
 	do {
 		printf("책 번호: ");
-		scanf("%d", num);
+		scanf("%d",&num);
 		num_check(book, num);
 	} while (num_check == 1);
 	book.num = num;
@@ -73,11 +112,13 @@ int num_check(struct Book book, int num) {
 
 void insert_stud(struct Student* stud, int c) {
 	printf("이름 : ");
-	scanf("%s", stud[c].name);
+	scanf("%s", &stud[c].name);
 	printf("학번 : ");
-	scanf("%d", stud[c].num);
+	scanf("%d", &stud[c].num);
+	/* for 문
 	printf("대여중인 책: ");
-	scanf("%s", stud[c].r_book);
+	scanf("%s", &stud[c].r_book);
+	*/
 	
 };
 
@@ -90,8 +131,8 @@ void print_menu() {
 	printf("원하는 기능의 번호를 입력하세요 : ");
 }
 void menu() {
-	struct Book B[1000] = { 0, };
-	struct Student S[1000];
+	struct Book B[10];
+	struct Student S[10];
 	int b_count = 0;
 	int s_count = 0;
 	
