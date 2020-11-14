@@ -25,3 +25,6 @@ void menu();
 void search_book(struct Book* book, int c);
 void insert_book(struct Book* book, int c);
 void insert_stud(struct Student* stud, int c);
+void search_stud(struct Student* stud, int s_count, struct Book* book, int b_count);
+int r_book_size(struct Student stud);
+void rental(struct Student* stud, struct Book* book, int s_count, int b_count);
