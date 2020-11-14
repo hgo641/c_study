@@ -13,15 +13,15 @@ struct Book {
 	char title[20];
 	char author[10];
 	int num;
-	int rental; //1이면 대여중
+	char rental; //1이면 대여중
 };
 struct Student {
 	char name[20];
 	int num;
-	char* r_book[10];//대여중인 책 목록
-	int rental; // x = 1이면 대여중
+	int r_book[10];//대여중인 책 목록
+	//int rental; // x = 1이면 대여중
 };
 void menu();
-void search_book(struct Book* book);
-void insert_book(struct Book* book);
-void insert_stud(struct Student* stud);
+void search_book(struct Book* book, int c);
+void insert_book(struct Book* book, int c);
+void insert_stud(struct Student* stud, int c);
