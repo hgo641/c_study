@@ -186,8 +186,8 @@ void print_menu() {
 	printf("\n---도서 관리 시스템---\n");
 	printf("1. 도서찾기\n");
 	printf("2. 도서 업데이트\n");
-	printf("3. 학생 정보 업데이트\n");
-	printf("4. 학생 찾기\n");
+	printf("3. 학생 찾기\n");
+	printf("4. 학생 업데이트\n");
 	printf("5. 도서 대여\n");
 	printf("6. 종료\n");
 	printf("원하는 기능의 번호를 입력하세요 : ");
@@ -212,11 +212,11 @@ void menu() {
 			b_count++;
 			break;
 		case 3:
-			insert_stud(S, s_count);
-			s_count++;
+			search_stud(S, s_count, B, b_count);
 			break;
 		case 4:
-			search_stud(S, s_count, B, b_count);
+			insert_stud(S, s_count);
+			s_count++;
 			break;
 		case 5:
 			rental(S, B, s_count, b_count);
