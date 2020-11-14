@@ -118,7 +118,7 @@ void insert_stud(struct Student* stud, int c) {
 	scanf("%s", &stud[c].name);
 	printf("학번 : ");
 	scanf("%d", &stud[c].num);
-	memset(stud[c].r_book, 0, 10); // 대여중인 책 0으로 초기화
+	memset(stud[c].r_book, 0, sizeof(stud[c].r_book)); // 대여중인 책 0으로 초기화
 	//stud[c].r_book = { 0, };
 	/* for 문
 	printf("대여중인 책: ");
