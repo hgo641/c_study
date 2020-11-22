@@ -1,17 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "book.h"
 #pragma warning(disable : 4996)
 /*
-	함수목록
-
-	*메뉴 출력
-	*도서 찾기
-	*도서 업데이트
-	*학생 정보 업데이트
-	*학생 찾기
-	학생이 대여한 도서의 수 반환
-	도서 대여
+	배열 -> 연결리스트로 변경
+	파일로 입력
 */
 
 void search_print() {
@@ -21,27 +15,32 @@ void search_print() {
 	printf("3. 책 번호로 검색\n");
 	printf("숫자를 입력해주세요\n");
 };
-void search_book(struct Book* book,int c) {
+void search_book_title(struct Book* book, const char s_title) {
+	if (book == NULL) {
+		printf("존재하지않습니다");
+		return;
+	}
+	int a = strcmp(s_title, book->title);
+	if (a == 0) {
+		printf("검색하신 도서입니다\n");
+		printf(" 제목 : %s\n 작가 : %s\n 책번호 : %d\n 대여 여부 : %c\n", book->title, book->author, book->num, book->rental);
+		return;
+	}
+	else search_book_title(book->next, s_title);
+};
+
+void search_book(struct Book_list* book_list,int c) {
 	search_print();
 	int cmd_s;
 	scanf("%d",&cmd_s);
 	switch (cmd_s){
 	case 1:
 		printf("책 제목을 입력하세요 : ");
-		char s_title[20];
+		const char s_title[20];
 		scanf("%s", &s_title);
-		
-
-		for (int i = 0; i < c; i++) {
-			int a = strcmp(s_title, book[i].title);
-			if (a==0) {
-				printf("검색하신 도서입니다\n");
-				printf(" 제목 : %s\n 작가 : %s\n 책번호 : %d\n 대여 여부 : %c\n", book[i].title, book[i].author, book[i].num, book[i].rental);
-				return;
-			}
-		}
-		printf("존재하지않습니다");
+		search_book_title(book_list->head, s_title);
 		break;
+		/*
 	case 2:
 		printf("저자를 입력하세요 : ");
 		char s_author[10];
@@ -72,7 +71,7 @@ void search_book(struct Book* book,int c) {
 			}
 		}
 		printf("존재하지않습니다");
-		break;
+		break;*/
 	default:
 		printf("잘못된 입력입니다\n");
 		break;
@@ -80,6 +79,29 @@ void search_book(struct Book* book,int c) {
 	return;
 	
 };
+void insert_book2(struct Book_list* book_list, struct Book* book) {
+	Book *new_book = (Book*)malloc(sizeof(Book)); 
+	printf("책 제목: ");
+	scanf("%s", new_book->title);
+	printf("작가 : ");
+	scanf("%s", new_book->author);
+	printf("책 번호: ");
+	scanf("%d", new_book->num);
+	new_book->rental = 'X';
+	new_book->next = NULL; //뒤에서부터 삽입
+	if (book_list->head == NULL) {
+		book_list->head = new_book;
+		book_list->head->prev = NULL;
+		book_list->tail = NULL;
+	}
+	else {
+		book_list->tail->next = new_book;
+		new_book->prev = book_list->tail;
+		book_list->tail = new_book;
+	}
+};
+
+/*
 void insert_book(struct Book* book, int c) {
 	printf("책 제목: ");
 	scanf("%s", &book[c].title);
@@ -97,9 +119,8 @@ void insert_book(struct Book* book, int c) {
 		num_check(book, num);
 	} while (num_check == 1);
 	book.num = num;
-	*/
-};
-
+	
+};*/
 /*
 //insert_book 실행시 num 중복검사 함수
 int num_check(struct Book book, int num) {
@@ -208,7 +229,7 @@ void menu() {
 			search_book(B,b_count);
 			break;
 		case 2:
-			insert_book(B, b_count);
+			insert_book2(B, b_count);
 			b_count++;
 			break;
 		case 3:
