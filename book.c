@@ -8,7 +8,65 @@
 	파일로 입력 x
 */
 
+void insert_firstlist(FILE* fp,Book_list* book_list,Book* book) {
+	
+	/*
+	char s_title[20] = { 0, };
+	char s_author[10] = { 0, };
 
+	char s_render;
+	*/
+	
+	while (1) {
+		//fseek(fp, sum, SEEK_SET);
+		char sc_num[10] = { 0, };
+		if (fp == NULL) {
+			printf("error\n");
+			exit(1);
+		}
+		int i = 0;
+		while ((book->title[i] = fgetc(fp)) != '\t') {
+			putchar(book->title[i]);
+			i++;
+		}
+		book->title[i] = '\0';
+		int j = 0;
+		while ((book->author[j] = fgetc(fp)) != '\t') {
+			putchar(book->author[j]);
+			j++;
+		}
+		book->author[j] = '\0';
+		int m = 0;
+		while ((sc_num[m] = fgetc(fp)) != '\t') {
+			putchar(sc_num[m]);
+			m++;
+		}
+		sc_num[m] = '\0';
+		book->num = atoi(sc_num);
+		book->rental = fgetc(fp);
+		putchar(book->rental);
+		printf("\n");
+		if (fgetc(fp) != '\n') {
+			Book* temp = (Book*)malloc(sizeof(Book));
+			temp->next = book;
+			book_list->head = temp;
+			insert_firstlist(fp,book_list, temp);
+		}
+		/*
+		printf("%s\n", &book_list->head->title);
+		printf("%s\n", &book_list->head->author);
+		printf("%d", &book_list->head->num);
+		*/
+		return;
+		
+
+		//printf("\n%s\n",s_title);
+	}
+	book_list->tail->next = NULL;
+	
+
+
+};
 void search_book(Book_list* book_list) {
 	
 	printf("책 제목을 입력하세요 : ");
@@ -177,14 +235,19 @@ void print_menu() {
 	printf("3. 학생 찾기\n");
 	printf("4. 학생 업데이트\n");
 	printf("5. 도서 대여\n");
-	printf("6. 종료\n");
+	printf("6. 최초 북리스트 삽입\n");
+	printf("7. 종료\n");
 	printf("원하는 기능의 번호를 입력하세요 : ");
 }
 void menu() {
 	
 	Book_list* book_list = (Book_list*)malloc(sizeof(Book_list));
-	book_list->head = NULL;
-	book_list->tail = NULL;
+	Book* temp = (Book*)malloc(sizeof(Book));
+	temp->next = NULL;
+	book_list->tail = temp;
+	book_list->head = temp;
+	FILE* fp = fopen("book_list.txt", "r");
+	
 	Stud_list* stud_list = (Stud_list*)malloc(sizeof(Stud_list));
 	stud_list->head = NULL;
 	stud_list->tail = NULL;
@@ -192,7 +255,7 @@ void menu() {
 	print_menu();
 	scanf("%d", &cmd);
 
-	while (cmd != 6) {
+	while (cmd != 7) {
 		switch (cmd) {
 		case 1:
 			search_book(book_list);
@@ -210,7 +273,14 @@ void menu() {
 		case 5:
 			rental(book_list,stud_list);
 			break;
+		case 6:
+			
+			insert_firstlist(fp,book_list,book_list->tail);
+			fclose(fp);
+			break;
+			
 		};
+		
 		print_menu();
 		scanf("%d", &cmd);
 	};
