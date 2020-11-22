@@ -25,14 +25,13 @@ void search_book_title(Book* book, char* s_title) {
 	}
 	int a = strcmp(s_title, book->title);
 	if (a == 0) {
-		printf("검색하신 도서입니다\n");
 		printf(" 제목 : %s\n 작가 : %s\n 책번호 : %d\n 대여 여부 : %c\n", book->title, book->author, book->num, book->rental);
 		return;
 	}
 	else search_book_title(book->next, s_title);
 };
 
-void insert_book (Book_list* book_list) {
+void insert_totalbook (Book_list* book_list) {
 	Book *new_book = (Book*)malloc(sizeof(Book)); 
 	printf("책 제목: ");
 	scanf("%s", new_book->title);
@@ -42,16 +41,21 @@ void insert_book (Book_list* book_list) {
 	scanf("%d", &new_book->num);
 	new_book->rental = 'X';
 	 //앞에서부터 삽입
+	insert_book(book_list, new_book);
+	return;
+};
+
+void insert_book(Book_list* book_list, Book* new_book) {
 	if (book_list->head == NULL) {
 		new_book->next = NULL;
 		book_list->head = new_book;
 		book_list->tail = new_book;
-		
+
 	}
 	else {
 		new_book->next = book_list->head;
 		book_list->head = new_book;
-		
+
 	}
 	return;
 };
@@ -85,30 +89,26 @@ void search_stud(Stud_list* stud_list) {
 	int s_num;
 	scanf("%d", &s_num);
 	search_stud_num(stud_list->head, s_num);
+	if (search_stud_num(stud_list->head, s_num) != NULL) {
+		Student* s_stud = (Student*)malloc(sizeof(Student));
+		s_stud = search_stud_num(stud_list->head, s_num);
+		printf("검색하신 학생입니다\n");
+		printf(" 이름 : %s\n 번호 : %d\n", s_stud->name, s_stud->num);
+		if (s_stud->r_book.head == NULL) {
+			printf("대여중인 책이 없습니다");
+		}
+		else {
+			printf("대여중인 책 목록입니다.\n");
+			print_book_list(s_stud->r_book.head);
+		}
+		printf("\n");
+
+	}
 
 	return;
 };
 
-void search_stud_num(Student* stud, int s_num) {
-	if (stud == NULL) {
-		printf("존재하지않습니다");
-		return;
-	}
-	
-	if (s_num == stud->num) {
-		printf("검색하신 학생입니다\n");
-		printf(" 이름 : %s\n 학번 : %d\n" ,stud->name, stud->num);
-		if (stud->r_book.head == NULL) {
-			printf("대여중인 책이 없습니다");
-		}
-		else {
-			print_book_list(stud->r_book.head);
-		}
-		printf("\n");
-		return;
-	}
-	else search_stud_num(stud->next, s_num);
-};
+
 
 void print_book_list(Book* book) {
 	if (book == NULL) return;
@@ -116,6 +116,59 @@ void print_book_list(Book* book) {
 		printf("%s ", book->title);
 		print_book_list(book->next);
 	}
+};
+Book*  search_book_num(int r_num, Book* book) {
+	if (book == NULL) { 
+		printf("해당 번호의 도서가 존재하지않습니다.\n");
+		return NULL; }
+	if (book->num == r_num) {
+		printf(" 제목 : %s\n 작가 : %s\n 책번호 : %d\n 대여 여부 : %c\n", book->title, book->author, book->num, book->rental);
+		return book;
+	}
+	else search_book_num(r_num, book->next);
+};
+void rental(Book_list* book_list, Stud_list* stud_list) {
+	int r_bnum, r_snum;
+	Book* r_book = (Book*)malloc(sizeof(Book));
+	printf("대여하는 도서의 번호를 입력하세요: ");
+	scanf("%d", &r_bnum);
+	if (search_book_num != NULL) {
+		if (book_list->head == NULL) {
+			printf("도서리스트가 존재하지않습니다.\n");
+			return;
+		}
+		
+		r_book = search_book_num(r_bnum, book_list->head);
+		if (r_book->rental != 'X') {
+			printf("이미 대여중인 책입니다.\n");
+			return;
+		}
+		r_book->rental = 'O';
+	}
+	printf("대여하는 학생의 번호를 입력하세요: ");
+	scanf("%d", &r_snum);
+	Student* r_stud = (Student*)malloc(sizeof(Student));
+	
+	if (search_stud_num(stud_list->head, r_snum) != NULL) {
+		
+		r_stud = (search_stud_num(stud_list->head, r_snum));
+		insert_book(&r_stud->r_book, r_book);
+		printf("대여 완료되었습니다.\n");
+	}
+	return;
+
+};
+
+Student* search_stud_num(Student* stud, int s_num) {
+	if (stud == NULL) {
+		printf("해당 학생은 존재하지않습니다");
+		return NULL;
+	}
+
+	if (s_num == stud->num) {
+		return stud;
+	}
+	else search_stud_num(stud->next, s_num);
 };
 void print_menu() {
 	printf("\n---도서 관리 시스템---\n");
@@ -145,7 +198,7 @@ void menu() {
 			search_book(book_list);
 			break;
 		case 2:
-			insert_book(book_list);
+			insert_totalbook(book_list);
 			break;
 		case 3:
 			search_stud(stud_list);
@@ -153,6 +206,9 @@ void menu() {
 
 		case 4:
 			insert_stud(stud_list);
+			break;
+		case 5:
+			rental(book_list,stud_list);
 			break;
 		};
 		print_menu();
