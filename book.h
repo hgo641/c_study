@@ -10,7 +10,6 @@ typedef struct _Book_list {
 	struct _Book* tail;
 } Book_list;
 
-//typedef struct _Book_list book_list;
 typedef struct _Book{
 	struct _Book* next;
 	//struct _Book* prev;
@@ -19,30 +18,27 @@ typedef struct _Book{
 	int num;
 	char rental; //1이면 대여중
 } Book;
-//typedef struct _Book Book;
-/*
+
+
 typedef struct _Stud_list {
-	_Student *head;
-	_Student *tail;
+	struct _Student *head;
+	struct _Student *tail;
 } Stud_list;
 
 typedef struct _Student {
-	Student* next;
-	Student* prev;
+	struct _Student* next;
 	char name[20];
 	int num;
-	int r_book[10];//대여중인 책 목록
+	struct _Book_list r_book;//대여중인 책 목록
 	//int rental; // x = 1이면 대여중
 } Student;
-*/
+
 void menu();
+void print_menu();
 void search_book(Book_list* book_list);
 void search_book_title(Book* book, char* s_title);
 void insert_book(Book_list* book_list);
-/*
-void insert_stud(struct Student* stud, int c);
-void search_stud(struct Student* stud, int s_count, struct Book* book, int b_count);
-int r_book_size(struct Student stud);
-void rental(struct Student* stud, struct Book* book, int s_count, int b_count);
-void search_book_title(struct Book* book, char s_title);
-*/
+void insert_stud(Stud_list* stud_list);
+void search_stud(Stud_list* stud_list);
+void search_stud_num(Student* stud, int s_num);
+void print_book_list(Book* book);
