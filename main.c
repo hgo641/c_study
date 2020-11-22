@@ -5,9 +5,9 @@
 #pragma warning(disable : 4996)
 
 void main() {
-    Book_list* L = (Book_list*)malloc(sizeof(Book_list));
-    L->head = NULL;
-    L->tail = NULL;
+    Book_list* book_list = (Book_list*)malloc(sizeof(Book_list));
+    book_list->head = NULL;
+    book_list->tail = NULL;
 	menu();
 
 
