@@ -4,8 +4,8 @@
 #include "book.h"
 #pragma warning(disable : 4996)
 /*
-	배열 -> 연결리스트로 변경
-	파일로 입력
+	배열 -> 연결리스트로 변경 o
+	파일로 입력 x
 */
 
 
