@@ -45,3 +45,4 @@ Student* search_stud_num(Student* stud, int s_num);
 Book* search_book_num(int r_num, Book* book);
 void print_book_list(Book* book);
 void rental(Book_list* book_list, Stud_list* stud_list);
+void insert_firstlist(FILE* fp, Book_list* book_list, Book* book);
