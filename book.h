@@ -13,7 +13,7 @@ typedef struct _Book_list {
 //typedef struct _Book_list book_list;
 typedef struct _Book{
 	struct _Book* next;
-	struct _Book* prev;
+	//struct _Book* prev;
 	char title[20];
 	char author[10];
 	int num;
@@ -36,9 +36,9 @@ typedef struct _Student {
 } Student;
 */
 void menu();
-void search_book(struct Book* book, int c);
-
-void insert_book2(struct Book_List* book_list, struct Book* book);
+void search_book(Book_list* book_list);
+void search_book_title(Book* book, char* s_title);
+void insert_book(Book_list* book_list);
 /*
 void insert_stud(struct Student* stud, int c);
 void search_stud(struct Student* stud, int s_count, struct Book* book, int b_count);
